@@ -1,8 +1,7 @@
 'use client';
 
-import Image from 'next/image';
-import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
 
 const CallToActionSection = () => {
@@ -14,7 +13,7 @@ const CallToActionSection = () => {
         fill
         className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-black bg-opacity-60"></div>
+      <div className="absolute inset-0 bg-black opacity-60"></div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         transition={{ duration: 0.5 }}
@@ -36,7 +35,7 @@ const CallToActionSection = () => {
             <div className="flex justify-center md:justify-start gap-4">
               <button
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="inline-block text-primary-700 bg-white rounded-lg px-6 py-3 font-semibold hover:bg-primary-500 hover:text-primary-50"
+                className="inline-block text-primary-700 !bg-primary-100 rounded-lg px-6 py-3 font-semibold hover:bg-primary-400 hover:text-primary-900 duration-300 transition"
               >
                 Search
               </button>
