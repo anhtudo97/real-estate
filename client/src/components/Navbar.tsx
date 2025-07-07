@@ -10,11 +10,11 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Bell, MessageCircle, Plus, Search } from 'lucide-react';
 import { Avatar, AvatarFallback } from './ui/avatar';
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 import { SidebarTrigger } from './ui/sidebar';
 
@@ -46,10 +46,10 @@ const Navbar = () => {
           )}
           <Link
             href="/"
-            className="cursor-pointer hover:!text-primary-300"
+            className="cursor-pointer hover:!text-primary-300 no-underline"
             scroll={false}
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 group duration-300 transition">
               <Image
                 src="/logo.svg"
                 alt="Rentiful Logo"
@@ -57,9 +57,9 @@ const Navbar = () => {
                 height={24}
                 className="w-6 h-6"
               />
-              <div className="text-xl font-bold">
+              <div className="text-xl font-bold text-white">
                 RENT
-                <span className="text-secondary-500 font-light hover:!text-primary-300">
+                <span className="text-secondary-500 font-light group-hover:!text-primary-300">
                   IFUL
                 </span>
               </div>
@@ -99,7 +99,7 @@ const Navbar = () => {
           </p>
         )}
         <div className="flex items-center gap-5">
-          {authUser ? (
+          {0 ? (
             <>
               <div className="relative hidden md:block">
                 <MessageCircle className="w-6 h-6 cursor-pointer text-primary-200 hover:text-primary-400" />
@@ -162,7 +162,7 @@ const Navbar = () => {
               <Link href="/signin">
                 <Button
                   variant="outline"
-                  className="text-white border-white bg-transparent hover:bg-white hover:text-primary-700 rounded-lg"
+                  className="text-white border-white bg-transparent !hover:bg-white !hover:text-primary-700 rounded-lg"
                 >
                   Sign In
                 </Button>
@@ -170,7 +170,7 @@ const Navbar = () => {
               <Link href="/signup">
                 <Button
                   variant="secondary"
-                  className="text-white bg-secondary-600 hover:bg-white hover:text-primary-700 rounded-lg"
+                  className="!text-white !bg-secondary-600 !hover:bg-white !hover:text-primary-700 rounded-lg"
                 >
                   Sign Up
                 </Button>
