@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 // import { setFilters } from "@/state";
 
 const HeroSection = () => {
-//   const dispatch = useDispatch();
-  const [searchQuery, setSearchQuery] = useState("");
+  //   const dispatch = useDispatch();
+  const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
 
   const handleLocationSearch = async () => {
@@ -20,10 +20,10 @@ const HeroSection = () => {
 
       const response = await fetch(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-          trimmedQuery
+          trimmedQuery,
         )}.json?access_token=${
           process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
-        }&fuzzyMatch=true`
+        }&fuzzyMatch=true`,
       );
       const data = await response.json();
       if (data.features && data.features.length > 0) {
@@ -42,7 +42,7 @@ const HeroSection = () => {
         router.push(`/search?${params.toString()}`);
       }
     } catch (error) {
-      console.error("error search location:", error);
+      console.error('error search location:', error);
     }
   };
 
@@ -60,7 +60,7 @@ const HeroSection = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center w-full"
+        className="absolute top-1/3 transform -translate-x-1/2 -translate-y-1/2 text-center w-full"
       >
         <div className="max-w-4xl mx-auto px-16 sm:px-12">
           <h1 className="text-5xl font-bold text-white mb-4">
@@ -81,7 +81,7 @@ const HeroSection = () => {
             />
             <Button
               onClick={handleLocationSearch}
-              className="!bg-secondary-500 text-white rounded-none rounded-r-xl border-none hover:!bg-secondary-600 h-12"
+              className="bg-secondary-500 text-white rounded-none rounded-r-xl border-none hover:bg-secondary-600 h-12"
             >
               Search
             </Button>
