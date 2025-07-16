@@ -1,4 +1,4 @@
-import { createNewUserInDatabase } from '@/lib/utils';
+import { createNewUserInDatabase, withToast } from '@/lib/utils';
 import { Manager, Tenant } from '@/types/prismaTypes';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
@@ -16,7 +16,15 @@ export const api = createApi({
     },
   }),
   reducerPath: 'api',
-  tagTypes: ['Managers', 'Tenants'],
+  tagTypes: [
+    'Managers',
+    'Tenants',
+    'Properties',
+    'PropertyDetails',
+    'Leases',
+    'Payments',
+    'Applications',
+  ],
   endpoints: (build) => ({
     getAuthUser: build.query<User, void>({
       queryFn: async (_, _queryApi, _extraoptions, fetchWithBQ) => {
@@ -56,6 +64,24 @@ export const api = createApi({
         } catch (error: any) {
           return { error: error.message || 'Could not fetch user data' };
         }
+      },
+    }),
+
+    updateTenantSettings: build.mutation<
+      Tenant,
+      { cognitoId: string } & Partial<Tenant>
+    >({
+      query: ({ cognitoId, ...updatedTenant }) => ({
+        url: `tenants/${cognitoId}`,
+        method: 'PUT',
+        body: updatedTenant,
+      }),
+      invalidatesTags: (result) => [{ type: 'Tenants', id: result?.id }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: 'Settings updated successfully!',
+          error: 'Failed to update settings.',
+        });
       },
     }),
   }),
