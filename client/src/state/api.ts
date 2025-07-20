@@ -69,7 +69,7 @@ export const api = createApi({
 
     updateTenantSettings: build.mutation<
       Tenant,
-      { cognitoId: string } & Partial<Tenant>
+      { cognitoId: string; } & Partial<Tenant>
     >({
       query: ({ cognitoId, ...updatedTenant }) => ({
         url: `tenants/${cognitoId}`,
@@ -87,4 +87,4 @@ export const api = createApi({
   }),
 });
 
-export const { useGetAuthUserQuery } = api;
+export const { useGetAuthUserQuery, useUpdateTenantSettingsMutation } = api;
