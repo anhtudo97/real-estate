@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface FiltersState {
   location: string;
@@ -35,11 +35,22 @@ export const initialState: InitialStateTypes = {
 };
 
 export const globalSlice = createSlice({
-  name: 'global',
+  name: "global",
   initialState,
-  reducers: {},
+  reducers: {
+    setFilters: (state, action: PayloadAction<Partial<FiltersState>>) => {
+      state.filters = { ...state.filters, ...action.payload };
+    },
+    toggleFiltersFullOpen: (state) => {
+      state.isFiltersFullOpen = !state.isFiltersFullOpen;
+    },
+    setViewMode: (state, action: PayloadAction<"grid" | "list">) => {
+      state.viewMode = action.payload;
+    },
+  },
 });
 
-export const { } = globalSlice.actions;
+export const { setFilters, toggleFiltersFullOpen, setViewMode } =
+  globalSlice.actions;
 
 export default globalSlice.reducer;
