@@ -192,7 +192,18 @@ export const api = createApi({
         });
       },
     }),
+
+    getProperty: build.query<Property, number>({
+      query: (id) => `properties/${id}`,
+      providesTags: (result, error, id) => [{ type: "PropertyDetails", id }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          error: "Failed to load property details.",
+        });
+      },
+    }),
   }),
 });
 
-export const { useGetAuthUserQuery, useUpdateTenantSettingsMutation, useUpdateManagerSettingsMutation, useGetPropertiesQuery, useAddFavoritePropertyMutation, useGetTenantQuery, useRemoveFavoritePropertyMutation } = api;
+export const { useGetAuthUserQuery, useUpdateTenantSettingsMutation, useUpdateManagerSettingsMutation, useGetPropertiesQuery, useAddFavoritePropertyMutation, useGetTenantQuery, useRemoveFavoritePropertyMutation,
+  useGetPropertyQuery } = api;
