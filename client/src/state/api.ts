@@ -1,6 +1,6 @@
 import { cleanParams, createNewUserInDatabase, withToast } from '@/lib/utils';
 import { FiltersState } from '@/state';
-import { Application, Manager, Property, Tenant } from '@/types/prismaTypes';
+import { Application, Lease, Manager, Property, Tenant } from '@/types/prismaTypes';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
 
@@ -258,8 +258,26 @@ export const api = createApi({
         });
       },
     }),
+
+    updateApplicationStatus: build.mutation<
+      Application & { lease?: Lease; },
+      { id: number; status: string; }
+    >({
+      query: ({ id, status }) => ({
+        url: `applications/${id}/status`,
+        method: "PUT",
+        body: { status },
+      }),
+      invalidatesTags: ["Applications", "Leases"],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Application status updated successfully!",
+          error: "Failed to update application settings.",
+        });
+      },
+    }),
   }),
 });
 
 export const { useGetAuthUserQuery, useUpdateTenantSettingsMutation, useUpdateManagerSettingsMutation, useGetPropertiesQuery, useAddFavoritePropertyMutation, useGetTenantQuery, useRemoveFavoritePropertyMutation,
-  useGetPropertyQuery, useCreateApplicationMutation, useGetApplicationsQuery, useGetCurrentResidencesQuery } = api;
+  useGetPropertyQuery, useCreateApplicationMutation, useGetApplicationsQuery, useGetCurrentResidencesQuery, useUpdateApplicationStatusMutation } = api;
