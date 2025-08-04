@@ -276,8 +276,26 @@ export const api = createApi({
         });
       },
     }),
+
+    createProperty: build.mutation<Property, FormData>({
+      query: (newProperty) => ({
+        url: `properties`,
+        method: "POST",
+        body: newProperty,
+      }),
+      invalidatesTags: (result) => [
+        { type: "Properties", id: "LIST" },
+        { type: "Managers", id: result?.manager?.id },
+      ],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          success: "Property created successfully!",
+          error: "Failed to create property.",
+        });
+      },
+    }),
   }),
 });
 
 export const { useGetAuthUserQuery, useUpdateTenantSettingsMutation, useUpdateManagerSettingsMutation, useGetPropertiesQuery, useAddFavoritePropertyMutation, useGetTenantQuery, useRemoveFavoritePropertyMutation,
-  useGetPropertyQuery, useCreateApplicationMutation, useGetApplicationsQuery, useGetCurrentResidencesQuery, useUpdateApplicationStatusMutation } = api;
+  useGetPropertyQuery, useCreateApplicationMutation, useGetApplicationsQuery, useGetCurrentResidencesQuery, useUpdateApplicationStatusMutation, useCreatePropertyMutation } = api;
