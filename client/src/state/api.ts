@@ -294,8 +294,25 @@ export const api = createApi({
         });
       },
     }),
+
+    // manager related endpoints
+    getManagerProperties: build.query<Property[], string>({
+      query: (cognitoId) => `managers/${cognitoId}/properties`,
+      providesTags: (result) =>
+        result
+          ? [
+            ...result.map(({ id }) => ({ type: "Properties" as const, id })),
+            { type: "Properties", id: "LIST" },
+          ]
+          : [{ type: "Properties", id: "LIST" }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        await withToast(queryFulfilled, {
+          error: "Failed to load manager profile.",
+        });
+      },
+    }),
   }),
 });
 
 export const { useGetAuthUserQuery, useUpdateTenantSettingsMutation, useUpdateManagerSettingsMutation, useGetPropertiesQuery, useAddFavoritePropertyMutation, useGetTenantQuery, useRemoveFavoritePropertyMutation,
-  useGetPropertyQuery, useCreateApplicationMutation, useGetApplicationsQuery, useGetCurrentResidencesQuery, useUpdateApplicationStatusMutation, useCreatePropertyMutation } = api;
+  useGetPropertyQuery, useCreateApplicationMutation, useGetApplicationsQuery, useGetCurrentResidencesQuery, useUpdateApplicationStatusMutation, useCreatePropertyMutation, useGetManagerPropertiesQuery } = api;
